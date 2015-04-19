@@ -14,7 +14,7 @@ def connect():
 def deleteMatches():
     """Remove all the match records from the database."""
 
-    query = "DELETE FROM matches;"
+    query = "TRUNCATE matches;"
     conn = connect()
     c = conn.cursor()
     c.execute(query)
@@ -25,7 +25,7 @@ def deleteMatches():
 def deletePlayers():
     """Remove all the player records from the database."""
 
-    query = "DELETE FROM players;"
+    query = "TRUNCATE TABLE players; ALTER SEQUENCE players_id_serial RESTART WITH 0"
     conn = connect()
     c = conn.cursor()
     c.execute(query)
@@ -36,7 +36,7 @@ def deletePlayers():
 def countPlayers():
     """Returns the number of players currently registered."""
 
-    query = "SELECT COUNT(ID) FROM players;"
+    query = "SELECT COUNT(id) FROM players;"
     conn = connect()
     c = conn.cursor()
     c.execute(query)

@@ -13,36 +13,33 @@ CREATE DATABASE tournament;
 -- create players table
 CREATE TABLE players
 (
-  ID serial primary key,
-  name text--,
-  --wins int,
-  --matches int
+  id serial PRIMARY KEY,
+  name TEXT
 );
 
 -- create matches table
 CREATE TABLE matches
 (
-  --ID serial primary key,
-  winner int REFERENCES players(ID),
-  loser int REFERENCES players(ID)
+  winner INT REFERENCES players(id),
+  loser INT REFERENCES players(id)
 );
 
 -- create views for wins and losses
 CREATE VIEW wins AS
-SELECT ID, name, COUNT(winner) AS wins
+SELECT id, name, COUNT(winner) AS wins
 FROM players LEFT JOIN matches
-ON winner = ID
-GROUP BY ID;
+ON winner = id
+GROUP BY id;
 
 CREATE VIEW losses AS
-SELECT ID, name, COUNT(loser) AS losses
+SELECT id, name, COUNT(loser) AS losses
 FROM players LEFT JOIN matches
-ON loser = ID
-GROUP BY ID;
+ON loser = id
+GROUP BY id;
 
 -- create standings view
 CREATE VIEW standings AS
-SELECT p.ID, p.name, wins, (select wins + losses) as matches
+SELECT p.id, p.name, wins, (SELECT wins + losses) AS matches
 FROM players p, wins w, losses l
-WHERE w.ID = p.ID AND l.ID = p.ID
+WHERE w.id = p.id AND l.id = p.id
 ORDER BY wins DESC;
